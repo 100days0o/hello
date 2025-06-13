@@ -1,15 +1,20 @@
+-- Momo jumpscare script by 100days0o
 local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local Camera = workspace.CurrentCamera
 local TweenService = game:GetService("TweenService")
 local SoundService = game:GetService("SoundService")
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
 
--- GUI Setup
+-- Đợi PlayerGui có sẵn
+local playerGui = LocalPlayer:WaitForChild("PlayerGui", 5)
+if not playerGui then return end
+
+-- GUI setup
 local gui = Instance.new("ScreenGui")
 gui.IgnoreGuiInset = true
 gui.ResetOnSpawn = false
 gui.Name = "MomoJumpscare"
-gui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+gui.Parent = playerGui
 
 -- White flash
 local flash = Instance.new("Frame")
@@ -29,27 +34,25 @@ momo.ImageTransparency = 0
 momo.ZIndex = 10
 momo.Parent = gui
 
--- Scream sound 1
+-- Scream sounds
 local scream1 = Instance.new("Sound", SoundService)
 scream1.SoundId = "rbxassetid://138186576"
 scream1.Volume = 1
 
--- Scream sound 2
 local scream2 = Instance.new("Sound", SoundService)
 scream2.SoundId = "rbxassetid://9118823100"
 scream2.Volume = 1
 
--- Flash animation
+-- Flash effect
 TweenService:Create(flash, TweenInfo.new(0.1), {BackgroundTransparency = 0}):Play()
 task.wait(0.1)
 TweenService:Create(flash, TweenInfo.new(0.5), {BackgroundTransparency = 1}):Play()
 
 -- Zoom in Momo
-local zoom = TweenService:Create(momo, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {
+TweenService:Create(momo, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {
 	Size = UDim2.new(1.5, 0, 1.5, 0),
 	Position = UDim2.new(-0.25, 0, -0.25, 0)
-})
-zoom:Play()
+}):Play()
 
 -- Camera shake and scream
 task.spawn(function()
